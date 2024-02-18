@@ -58,10 +58,10 @@ export function walkthroughIntro(args: IWalkthroughArgs) {
 
     setInitialCamera(state, new Vec3(184.744, 0.000, -636.820), new Vec3(296.000, 16.000, 13.500));
 
-    let c0 = commentary(wt, null, 0)`Welcome to the walkthrough of the GPT large language model! Here we'll explore the model _nano-gpt_, with a mere 85,000 parameters.
+    let c0 = commentary(wt, null, 0)`GPT büyük dil modelinin nasıl çalıştığını anlattığımız turumuza hoş geldiniz! Burada yaklaşık 85.000 parametreye sahip _nano-gpt_ modelini inceleyeceğiz.
 
-Its goal is a simple one: take a sequence of six letters: ${embed(ExampleInputOutput)}
-and sort them in alphabetical order, i.e. to "ABBBCC".`;
+Amacımız basit: 6 harflik bir listeyi alalım: ${embed(ExampleInputOutput)}
+ve bunları alfabetik olarak sıralayalım, mesela "ABBBCC" gibi.`;
 
     if (c0.t > 0) {
         for (let cube of layout.cubes) {
@@ -94,11 +94,11 @@ and sort them in alphabetical order, i.e. to "ABBBCC".`;
     breakAfter();
 
     let tokenStr = c_str('_token_', 0, DimStyle.Token);
-    let tokenIdxStr = c_str('_token index_', 0, DimStyle.TokenIdx);
+    let tokenIdxStr = c_str('_token indeks_', 0, DimStyle.TokenIdx);
 
-    commentary(wt, t6)`We call each of these letters a ${tokenStr}, and the set of the model's different tokens make up its _vocabulary_:${embed(TokenVocab)}
+    commentary(wt, t6)`Bu harflerin her birine bir ${tokenStr} diyoruz ve modelin farklı tokenlerinin oluşturduğu küme, onun _kelime dağarcığını_ oluşturur:${embed(TokenVocab)}
 
-    From this table, each token is assigned a number, its ${tokenIdxStr}. And now we can enter this sequence of numbers into the model:${embed(ExampleTokenValues)}\n`;
+    Bu tabloda görüldüğü gibi, her token bir numaraya atanmıştır, ve bu onun ${tokenIdxStr}'i olur. Artık bu sayı dizisini (harflerin sayı karşılıklarını) modele girebiliriz: ${embed(ExampleTokenValues)}\n`;
     breakAfter();
 
     let t7 = afterTime(null, 1.5, 0.5);
@@ -129,8 +129,8 @@ and sort them in alphabetical order, i.e. to "ABBBCC".`;
 
     breakAfter();
 
-    let c5 = commentary(wt)`In the 3d view, each green cell represents a number being processed, and each blue cell is a weight. ${embed(GreenBlueCells)}
-    Each number in the sequence first gets turned into a 48 element vector (a size chosen for this particular model). This is called an _embedding_.`;
+    let c5 = commentary(wt)`3D görselde, her yeşil hücre işlenmekte olan bir sayıyı, her mavi hücre ise bir ağırlığı temsil ediyor.${embed(GreenBlueCells)}
+    Dizideki her sayı önce 48 elemanlı bir vektöre dönüştürülür (bu model için seçilen bir boyut). Buna _gömme (embedding)_ denir.`;
     breakAfter(c5);
 
     {
@@ -166,7 +166,7 @@ and sort them in alphabetical order, i.e. to "ABBBCC".`;
     }
 
     breakAfter();
-    commentary(wt)`The embedding is then passed through the model, going through a series of layers, called transformers, before reaching the bottom.`;
+    commentary(wt)`_Embedding_ (Gömme) daha sonra modele aktarılır ve en alt kısma ulaşmadan önce dönüştürücüler (Transformers) olarak adlandırılan bir dizi katmandan geçerler.`;
     breakAfter();
 
     {
@@ -220,11 +220,9 @@ and sort them in alphabetical order, i.e. to "ABBBCC".`;
         }
     }
 
-    commentary(wt)`So what's the output? A prediction of the next token in the sequence. So at the 6th entry, we get probabilities that the next token is
-        going to be 'A', 'B', or 'C'.`
+    commentary(wt)`Peki o halde çıktı nedir? Dizideki bir sonraki tokenin tahmini. Öyle ki, 6'ıncı girişte, bir sonraki tokenin 'A', 'B' veya 'C' olma olasılıklarını alırız.`
 
-    commentary(wt)`In this case, the model is pretty sure it's going to be 'A'. Now, we can feed this prediction back into the top of the model, and repeat
-    the entire process.`;
+    commentary(wt)`Bu örnekte, model bu ihtimali olan tokenin 'A' olacağından oldukça emin gibi görünüyor. Şimdi, bu tahmini modelin en üstüne ekler ve tüm süreci en baştan tekrarlayabiliriz.`;
 
     breakAfter();
 }
@@ -416,12 +414,12 @@ const GreenBlueCells: React.FC = () => {
             <div className={s.cellInfoCol}>
                 <Cell nums={greenNums} color={greenColor} mul={0.5} />
                 <Graph nums={greenNums} color={greenColor} setNums={setGreenNums} />
-                <div className={s.cellInfoText}>being processed</div>
+                <div className={s.cellInfoText}>işleniyor</div>
             </div>
             <div className={s.cellInfoCol}>
                 <Cell nums={blueNums} color={blueColor} mul={1} />
                 <Graph nums={blueNums} color={blueColor} setNums={setBlueNums} />
-                <div className={s.cellInfoText}>weights</div>
+                <div className={s.cellInfoText}>ağırlıklar</div>
             </div>
         </div>
     </div>

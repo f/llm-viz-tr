@@ -19,22 +19,20 @@ export function walkthrough01_Prelim(args: IWalkthroughArgs) {
     setInitialCamera(state, new Vec3(184.744, 0.000, -636.820), new Vec3(296.000, 16.000, 13.500));
 
     let c0 = commentary(wt, null, 0)`
-Before we delve into the algorithm's intricacies, let's take a brief step back.
+Algoritmanın karmaşıklıklarına dalmadan önce, kısa bir adım geri atalım.
 
-This guide focuses on _inference_, not training, and as such is only a small part of the entire machine-learning process.
-In our case, the model's weights have been pre-trained, and we use the inference process to generate output. This runs directly in your browser.
+Bu rehber, eğitime değil, çıkarıma odaklanır ve bu süreç tüm makine öğrenimi sürecinin yalnızca küçük bir parçasıdır.
+Bizim durumumuzda, modelin ağırlıkları önceden eğitilmiştir ve çıktı üretmek için çıkarım sürecini kullanıyoruz. Bu işlem de direkt olarak tarayıcınızda çalışır.
 
-The model showcased here is part of the GPT (generative pre-trained transformer) family, which can be described as a "context-based token predictor".
-OpenAI introduced this family in 2018, with notable members such as GPT-2, GPT-3, and GPT-3.5 Turbo, the latter being the foundation of the widely-used ChatGPT.
-It might also be related to GPT-4, but specific details remain unknown.
+Burada sergilenen model, "bağlam tabanlı token tahmincisi" olarak tanımlanabilecek GPT (jeneratif önceden eğitilmiş dönüştürücü) ailesinin bir parçasıdır.
+OpenAI, bu aileyi 2018'de tanıttı ve GPT-2, GPT-3 ve GPT-3.5 Turbo gibi dikkate değer üyeleri içermektedir. Bunlardan sonuncusu yaygın olarak kullanılan ChatGPT'nin temelidir.
+Ayrıca GPT-4 ile ilgili de olabilir, ancak bu henüz tam olarak bilinmiyor.
 
-This guide was inspired by the ${embedLink('minGPT', minGptLink)} GitHub project, a minimal GPT implementation in ${embedLink('PyTorch', pytorchLink)}
-created by ${embedLink('Andrej Karpathy', andrejLink)}.
-His YouTube series ${embedLink("Neural Networks: Zero to Hero", zeroToHeroLink)} and the minGPT project have been invaluable resources in the creation of this
-guide. The toy model featured here is based on one found within the minGPT project.
+Bu rehber, ${embedLink('Andrej Karpathy', andrejLink)} tarafından ${embedLink('PyTorch', pytorchLink)}'ta oluşturulan minimal bir GPT uygulaması olan ${embedLink('minGPT', minGptLink)} GitHub projesinden esinlenmiştir.
+Onun YouTube serisi ${embedLink("Neural Networks: Zero to Hero", zeroToHeroLink)} ve minGPT projesi, bu rehberin oluşturulmasında paha biçilmez kaynaklar olmuştur.
+Burada öne çıkan oyuncak model, minGPT projesi içinde bulunan bir modele dayanmaktadır.
 
-Alright, let's get started!
-`;
+O halde, hemen başlayalım!`;
 
 }
 

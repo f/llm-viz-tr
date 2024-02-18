@@ -53,27 +53,24 @@ export const WelcomePopup: React.FC<{}> = () => {
 
     return <ModalWindow className={s.modalWindow} backdropClassName={s.modalWindowBackdrop} onBackdropClick={hide}>
         <div className={s.header}>
-            <div className={s.title}>Welcome!</div>
+            <div className={s.title}>Hoş geldiniz!</div>
         </div>
         <div className={s.body}>
             {/* <div className={s.image}>
                 <Image src={IntroImage} alt={"LLM diagram"} />
             </div> */}
-            <div style={{ width: 600, flex: '0 0 auto' }}>
+            {/* <div style={{ width: 600, flex: '0 0 auto' }}>
                 <TocDiagram activePhase={null} onEnterPhase={hide} />
-            </div>
+            </div> */}
             <div className={s.text}>
-                <p>This is an interactive 3D Visualization of a Large Language Model (LLM),
-                    of the likes that powers GPT-3 & ChatGPT.</p>
-                <p>We show a very small model of the same design, to help you understand how
-                    these models work.</p>
-                <p>As well as being interactive, we provide a walkthrough of the model
-                    showing the step-by-step process of how it works, with every single add, multiply &
-                    math operation described.</p>
+                <p>Bu, GPT-3 ve ChatGPT'yi güçlendiren türden Büyük Bir Dil Modelinin (LLM) interaktif 3D Görselleştirmesidir.</p>
+                <p>Bu modellerin nasıl çalıştığını anlamanıza yardımcı olmak için aynı tasarıma sahip çok küçük bir modeli gösteriyoruz.</p>
+                <p>Interaktif olmanın yanı sıra, modelin nasıl çalıştığını adım adım gösteren bir rehberlik de sağlıyor, burada yapılan her tekil toplama, çarpma ve matematik işlemi açıklanmıştır.</p>
+                <p style={{ marginTop: 20, fontSize: 14 }}><a href="https://twitter.com/fkadev">Fatih Kadir Akın</a> tarafından, yaratıcısı Brendan Bycroft'un izniyle Türkçeye çevrilmiştir.</p>
             </div>
         </div>
         <div className={s.footer}>
-            <button className={s.button} onClick={hide}>Get Started</button>
+            <button className={s.button} onClick={hide}>Başla</button>
         </div>
     </ModalWindow>;
 };
