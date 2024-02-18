@@ -25,7 +25,7 @@ Daha önce, tokenlerin basit bir _lookup table_ kullanılarak nasıl bir tam say
 Bu tam sayılar, the ${c_blockRef('_token indisleri_', state.layout.idxObj, DimStyle.TokenIdx)}, modelde gördüğümüz _ilk ve tek_ tam sayılardır.
 Bundan sonra her zaman ondalık sayılar olan floatları kullanıyoruz.
 
-Şimdi, 4. tokenin (indeksi 3) ${c_blockRef('_girdi gömme_', state.layout.residual0)}'mizin, 4'üncü sütun vektörünü üretmek için nasıl kullanıldığına bir göz baja.`;
+Şimdi, 4. tokenin (indeksi 3) ${c_blockRef('_girdi gömme_', state.layout.residual0)}'mizin, 4'üncü sütun vektörünü üretmek için nasıl kullanıldığına bir göz atalım.`;
     breakAfter();
 
     let t_moveCamera = afterTime(null, 1.0);
