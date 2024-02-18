@@ -1,3 +1,4 @@
+import React from "react";
 import { clamp, makeArray } from "@/src/utils/data";
 import { lerp, lerpSmoothstep } from "@/src/utils/math";
 import { Mat4f } from "@/src/utils/matrix";
