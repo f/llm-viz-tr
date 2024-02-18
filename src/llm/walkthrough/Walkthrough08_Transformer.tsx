@@ -13,18 +13,16 @@ export function walkthrough08_Transformer(args: IWalkthroughArgs) {
 
     let c0 = commentary(wt, null, 0)`
 
-And that's a complete transformer block!
+İşte karşınızda tamamlanmış bir dönüştürücü (transformer) blok!
 
-These form the bulk of any GPT model and are repeated a number of times, with the output of one
-block feeding into the next, continuing the residual pathway.
+Bu bloklar, herhangi bir GPT modelinin çoğunu oluşturur ve birkaç kez tekrarlanır, bir bloğun çıktısı
+kalıntı yolunu devam ettirerek bir sonraki bloğu besler.
 
-As is common in deep learning, it's hard to say exactly what each of these layers is doing, but we
-have some general ideas: the earlier layers tend to focus on learning
-lower-level features and patterns, while the later layers learn to recognize and understand
-higher-level abstractions and relationships. In the context of natural language processing, the
-lower layers might learn grammar, syntax, and simple word associations, while the higher layers
-might capture more complex semantic relationships, discourse structures, and context-dependent meaning.
-
+Derin öğrenme alanında çok yaygın bir görüş odur ki, bu katmanların her birinin tam olarak ne yaptığını söylemek çok zor, ancak
+genel fikirlere sahibiz: daha erken katmanlar genellikle düşük seviyeli özellikleri ve desenleri öğrenmeye odaklanırken,
+daha sonraki katmanlar tanımayı ve anlamayı öğrenir daha yüksek seviye ise soyutlamaları ve ilişkileri.
+Doğal dil işleme bağlamında, alt katmanlar dilbilgisi, sözdizimi ve basit kelime ilişkilerini öğrenebilirken,
+üst katmanlar daha karmaşık anlamsal ilişkileri, söylem yapılarını ve bağlama bağlı anlamları yakalayabilirler.
 `;
 
 }

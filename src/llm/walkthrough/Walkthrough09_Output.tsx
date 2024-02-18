@@ -13,40 +13,40 @@ export function walkthrough09_Output(args: IWalkthroughArgs) {
 
     let c0 = commentary(wt, null, 0)`
 
-Finally, we come to the end of the model. The output of the final transformer block is passed through
-a layer normalization, and then we use a linear transformation (matrix multiplication), this time without a bias.
+En sonunda, modelin sonuna geldik. Son dönüştürücü bloğun çıktısı bir katman normalleştirmesinden geçirilir ve sonra
+bir doğrusal dönüşüm (matris çarpımı) kullanılır, bu sefer sapma kullanılmaz.
 
-This final transformation takes each of our column vectors from length C to length nvocab. Hence,
-it's effectively producing a score for each word in the vocabulary for each of our columns. These
-scores have a special name: logits.
+Bu son dönüşüm, her bir sütun vektörümüzü C uzunluğundan nvocab uzunluğuna taşır. Dolayısıyla,
+etkin bir şekilde her bir sütunumuz için _kelime dağarcığındaki_ her kelime için bir puan üretiyor. Bu
+puanların ise özel bir adı vardır: Lojitler.
 
-The name "logits" comes from "log-odds," i.e., the logarithm of the odds of each token. "Log" is
-used because the softmax we apply next does an exponentiation to convert to "odds" or probabilities.
+"Lojitler" adı, "log-odss" yani, her tokenin şansının logaritması anlamından gelir. "Log" kelimesi
+kullanılır çünkü sonraki adımda uyguladığımız softmax, bunları "şans" veya olasılıklara dönüştürmek için üs alır.
 
-To convert these scores into nice probabilities, we pass them through a softmax operation. Now, for
-each column, we have a probability the model assigns to each word in the vocabulary.
+Bu puanları güzel olasılıklara dönüştürmek içinse, onları yine bir softmax işleminden geçiririz. Artık her
+sütun için, modelin kelime dağarcığındaki her kelimeye atadığı bir olasılığımız var.
 
-In this particular model, it has effectively learned all the answers to the question of how to sort
-three letters, so the probabilities are heavily weighted toward the correct answer.
+Bu model örneğinde, üç harfi nasıl sıralayacağının tüm cevaplarını etkin bir şekilde öğrenmiş, bu yüzden
+olasılıklar doğru cevaba ağırlıklı bir şekilde dağılmıştır.
 
-When we're stepping the model through time, we use the last column's probabilities to determine the
-next token to add to the sequence. For example, if we've supplied six tokens into the model, we'll
-use the output probabilities of the 6th column.
+Modeli zamansal olarak adım adım ilerletirken, son sütunun olasılıklarını kullanarak
+dizimize ekleyeceğimiz bir sonraki tokeni belirleriz. Örneğin, modele altı token girdiysek,
+6'ıncı sütunun çıktı olasılıklarını kullanırız.
 
-This column's output is a series of probabilities, and we actually have to pick one of them to use
-as the next in the sequence. We do this by "sampling from the distribution." That is, we randomly
-choose a token, weighted by its probability. For example, a token with a probability of 0.9 will be
-chosen 90% of the time.
+Bu sütunun çıktısı bir dizi olasılıktır. Ve bizim aslında bunlardan birini dizinin bir sonraki adımı olarak kullanmak
+için seçmemiz gerekiyor. Bu işlemi de "dağılımdan örnekleme" yaparak gerçekleştiririz.
+Yani, aslında rastgele bir token seçeriz, fakat bu seçim olasılığına göre ağırlıklıdır.
+Örneğin, 0.9 olasılığa sahip bir token, %90 ihtimalle seçilecektir.
 
-There are other options here, however, such as always choosing the token with the highest probability.
+Ancak burada başka seçenekler de var, mesela "her zaman en yüksek olasılığa sahip tokeni seçmek" gibi.
 
-We can also control the "smoothness" of the distribution by using a temperature parameter. A higher
-temperature will make the distribution more uniform, and a lower temperature will make it more
-concentrated on the highest probability tokens.
+Dağılımın "düzgünlüğünü" kontrol etmek için bir sıcaklık (temperature) parametresi kullanabiliriz.
+Daha yüksek bir sıcaklık, dağılımı daha düzgün yaparken, daha düşük bir sıcaklık, seçme işlemini
+en yüksek olasılığa sahip tokenlara daha fazla yoğunlaştıracaktır.
 
-We do this by dividing the logits (the output of the linear transformation) by the temperature before
-applying the softmax. Since the exponentiation in the softmax has a large effect on larger numbers,
-making them all closer together will reduce this effect.
+Bu işlemi de softmax'i uygulamadan önce lojitleri (doğrusal dönüşümün çıktısı) sıcaklık değerine (temperature)
+bölerek yaparız. Softmax'ta üs almanın büyük sayılarda büyük bir etkisi olduğundan, hepsini birbirine daha yakın
+hale getirmek bu etkiyi azaltır.
 `;
 
 }

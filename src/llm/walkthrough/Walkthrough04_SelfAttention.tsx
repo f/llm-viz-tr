@@ -1,20 +1,18 @@
-import React from 'react';
-import { dimProps, duplicateGrid, findSubBlocks, splitGrid, splitGridAll } from "../Annotations";
-import { drawDataFlow, getBlockValueAtIdx } from "../components/DataFlow";
-import { BlkSpecial, getBlkDimensions, IBlkDef, setBlkPosition } from "../GptModelLayout";
-import { drawDependences } from "../Interaction";
-import { IProgramState } from "../Program";
-import { drawText, IFontOpts, measureText } from "../render/fontRender";
 import { clamp, makeArray } from "@/src/utils/data";
 import { lerp, lerpSmoothstep } from "@/src/utils/math";
 import { Mat4f } from "@/src/utils/matrix";
 import { Dim, Vec3, Vec4 } from "@/src/utils/vector";
+import { dimProps, duplicateGrid, findSubBlocks, splitGrid, splitGridAll } from "../Annotations";
+import { IBlkDef, getBlkDimensions, setBlkPosition } from "../GptModelLayout";
+import { drawDependences } from "../Interaction";
+import { IProgramState } from "../Program";
+import { BlockText } from '../components/CommentaryHelpers';
+import { drawDataFlow, getBlockValueAtIdx } from "../components/DataFlow";
+import { IFontOpts, drawText, measureText } from "../render/fontRender";
 import { Phase } from "./Walkthrough";
 import { processUpTo, startProcessBefore } from "./Walkthrough00_Intro";
 import { embedInline } from "./Walkthrough01_Prelim";
-import { Colors, commentary, DimStyle, dimStyleColor, IWalkthroughArgs, moveCameraTo, setInitialCamera } from "./WalkthroughTools";
-import { BlockText } from '../components/CommentaryHelpers';
-import clsx from 'clsx';
+import { Colors, DimStyle, IWalkthroughArgs, commentary, dimStyleColor, moveCameraTo, setInitialCamera } from "./WalkthroughTools";
 
 export function walkthrough04_SelfAttention(args: IWalkthroughArgs) {
     let { walkthrough: wt, layout, state, tools: { afterTime, c_str, c_blockRef, c_dimRef, breakAfter, cleanup } } = args;
@@ -31,11 +29,9 @@ export function walkthrough04_SelfAttention(args: IWalkthroughArgs) {
     wt.dimHighlightBlocks = [layout.residual0, block0.ln1.lnResid, ...head2.cubes];
 
     commentary(wt, null, 0)`
-The self-attention layer is perhaps the heart of the Transformer and of GPT. It's the phase where the
-columns in our input embedding matrix "talk" to each other. Up until now, and in all other phases,
-the columns can be regarded independently.
+Öz-dikkat katmanı, belki de Dönüştürücü'nün ve GPT'nin kalbidir. Bu, girdi gömme matrisimizdeki sütunların birbirleriyle "konuştuğu" aşamadır. Şimdiye kadar ve diğer tüm aşamalarda, sütunlar bağımsız olarak ele alınabilir.
 
-The self-attention layer is made up of several heads, and we'll focus on one of them for now.`;
+Öz-dikkat katmanı, birkaç başlıktan oluşur ve şimdilik bunlardan birine odaklanacağız.`;
     breakAfter();
     let t_moveCamera = afterTime(null, 1.0);
     let t_highlightHeads = afterTime(null, 2.0);
@@ -44,18 +40,18 @@ The self-attention layer is made up of several heads, and we'll focus on one of 
 
     breakAfter();
     commentary(wt)`
-The first step is to produce three vectors for each of the ${c_dimRef('T', DimStyle.T)} columns from the ${c_blockRef('normalized input embedding matrix', block0.ln1.lnResid)}.
-These vectors are the Q, K, and V vectors:
+İlk adım, ${c_blockRef('normalize edilmiş girdi gömme matrisi', block0.ln1.lnResid)}'den ${c_dimRef('T', DimStyle.T)} sütunları için üç vektör üretmektir.
+Bu vektörler Q, K ve V vektörleridir:
 
 ${embedInline(<ul>
-    <li>Q: <BlockText blk={head2.qBlock}>Query vector</BlockText></li>
-    <li>K: <BlockText blk={head2.kBlock}>Key vector</BlockText></li>
-    <li>V: <BlockText blk={head2.vBlock}>Value vector</BlockText></li>
+    <li>Q: <BlockText blk={head2.qBlock}>Sorgu vektörü</BlockText></li>
+    <li>K: <BlockText blk={head2.kBlock}>Anahtar vektörü</BlockText></li>
+    <li>V: <BlockText blk={head2.vBlock}>Değer vektörü</BlockText></li>
 </ul>)}
 
-To produce one of these vectors, we perform a matrix-vector multiplication with a bias added. Each
-output cell is some linear combination of the input vector. E.g. for the ${c_blockRef('Q vectors', head2.qBlock)}, this is done with a dot product between
-a row of the ${c_blockRef('Q-weight matrix', head2.qWeightBlock)} and a column of the ${c_blockRef('input matrix', block0.ln1.lnResid)}.`;
+Bu vektörlerden birini üretmek için, bias (sapma) eklenmiş bir matris-vektör çarpımı gerçekleştiriyoruz. Her
+çıktı hücresi, girdi vektörünün bazı doğrusal kombinasyonlarıdır. Örneğin, ${c_blockRef('Q vektörleri', head2.qBlock)} için, bu
+${c_blockRef('Q-ağırlık matrisi', head2.qWeightBlock)}'nin bir satırı ile ${c_blockRef('girdi matrisi', block0.ln1.lnResid)}'nin bir sütunu arasında _nokta çarpımı_ yaparak gerçekleştirilir.`;
     breakAfter();
 
     let t_focusQCol = afterTime(null, 1.0);
@@ -63,9 +59,7 @@ a row of the ${c_blockRef('Q-weight matrix', head2.qWeightBlock)} and a column o
 
     breakAfter();
     commentary(wt)`
-The dot product operation, which we'll see a lot of, is quite simple: We pair each element from
-the first vector with the corresponding element from the second vector, multiply the pairs together
-and then add the results up.`;
+Nokta çarpım işlemi, sıkça göreceğimiz, oldukça basittir: İlk vektörden her bir öğeyi ikinci vektörden karşılık gelen öğeyle eşleştiririz, çiftleri birbirleriyle çarparız ve sonra sonuçları toplarız.`;
     breakAfter();
 
     let t_moveDotCells = afterTime(null, 2.0, 0.5);
@@ -79,11 +73,9 @@ and then add the results up.`;
     breakAfter();
     commentary(wt)`
 
-This is a general and simple way of ensuring each output element can be influenced by all the
-elements in the input vector (where that influence is determined by the weights). Hence its frequent
-appearance in neural networks.
+Bu, her çıktı öğesinin, girdi vektöründeki tüm öğeler tarafından etkilenebilmesini sağlamanın genel ve basit bir yoludur (bu etki ağırlıklar tarafından belirlenir). Bu yüzden, bu işlemle yapay sinir ağlarında sıkça karşılaşırız.
 
-We repeat this operation for each output cell in the Q, K, V vectors:`;
+Bu işlemi Q, K, V vektörlerindeki her çıktı hücresi için tekrarlarız:`;
     breakAfter();
 
     let t_revertFocusCol = afterTime(null, 0.25, 0.5);
@@ -92,22 +84,17 @@ We repeat this operation for each output cell in the Q, K, V vectors:`;
 
     breakAfter();
     commentary(wt)`
-What do we do with our Q (query), K (key), and V (value) vectors? The naming
-gives us a hint: "key" and "value" are reminiscent of a dictionary in software, with keys mapping to
-values. Then "query" is what we use to look up the value.
+Peki bu Q (sorgu), K (anahtar) ve V (değer) vektörleriyle ne yaparız? Aslında isimlendirme bize bir ipucu veriyor: "anahtar" ve "değer", yazılımdaki bir sözlük veri türünü hatırlatır, anahtarlar (key) değerlere eşlenir. O zaman "sorgu"yu da bu değeri bulmak için kullanırız.
 
 ${embedInline(<div className='ml-4'>
-    <div className='mt-1 text-center italic'>Software analogy</div>
-    <div className='text-sm mt-1 mb-1 text-gray-600'>Lookup table:</div>
+    <div className='mt-1 text-center italic'>Yazılım benzetmesi</div>
+    <div className='text-sm mt-1 mb-1 text-gray-600'>Lookup Tablosu:</div>
     <div className='font-mono'>{'table = { "key0": "value0", "key1": "value1", ... }'}</div>
-    <div className='text-sm mt-1 mb-1 text-gray-600'>Query Process:</div>
+    <div className='text-sm mt-1 mb-1 text-gray-600'>Sorgu Süreci:</div>
     <div className='font-mono'>{'table["key1"] => "value1"'}</div>
 </div>)}
 
-In the case of self-attention, instead of returning a single entry, we return some weighted
-combination of the entries. To find that weighting, we take a dot product between a Q vector and each
-of the K vectors. We normalize that weighting, before finally using it to multiply with the
-corresponding V vector, and then adding them all up.
+Öz-dikkat durumunda, tek bir girdiyi döndürmek yerine, girdilerin bazı ağırlıklı kombinasyonlarını döndürürüz. Bu ağırlığı bulmak için, bir Q vektörü ile K vektörlerinin her biri arasında bir _nokta çarpımı_ yaparız. Bu ağırlığı normalize ettikten sonra da, ilgili V vektörü ile çarpar ve sonra hepsini yine toplarız.
 
 ${embedInline((() => {
     let keyCol = dimStyleColor(DimStyle.Intermediates);
@@ -115,8 +102,8 @@ ${embedInline((() => {
     let qCol = dimStyleColor(DimStyle.Aggregates);
 
     return <div className='ml-4'>
-        <div className='mt-1 text-center italic'>Self Attention</div>
-        <div className='text-sm mt-2 mb-1 text-gray-600'>Lookup table:</div>
+        <div className='mt-1 text-center italic'>Öz Dikkat</div>
+        <div className='text-sm mt-2 mb-1 text-gray-600'>Lookup tablosu:</div>
         <div className='font-mono flex items-center'>K:
             <div className='mx-2 my-1'>{makeTextVector(keyCol)}</div>
             <div className='mx-2 my-1'>{makeTextVector(keyCol)}</div>
@@ -127,7 +114,7 @@ ${embedInline((() => {
             <div className='mx-2 my-1'>{makeTextVector(valCol)}</div>
             <div className='mx-2 my-1'>{makeTextVector(valCol)}</div>
         </div>
-        <div className='text-sm mt-2 mb-1 text-gray-600'>Query Process:</div>
+        <div className='text-sm mt-2 mb-1 text-gray-600'>Sorgu Süreci:</div>
         <div className='font-mono flex items-center'>
             <div className='flex items-center'>Q: <div className='mx-2 my-1'>{makeTextVector(qCol)}</div></div>
         </div>
@@ -137,10 +124,10 @@ ${embedInline((() => {
             <div className='flex items-center mx-2'>w2 = <div className='m-1'>{makeTextVector(qCol)}</div>.<div className='m-1'>{makeTextVector(keyCol)}</div></div>
         </div>
         <div className='font-mono flex items-center my-2'>
-            [w0n, w1n, w2n] =&nbsp;<span className='italic'>normalization</span>([w0, w1, w2])
+            [w0n, w1n, w2n] =&nbsp;<span className='italic'>normalleştirme</span>([w0, w1, w2])
         </div>
         <div className='font-mono flex items-center'>
-            result =
+            sonuc =
             w0n * <div className='ml-2 mr-2 my-1'>{makeTextVector(valCol)}</div>&nbsp;+&nbsp;
             w1n * <div className='ml-2 mr-2 my-1'>{makeTextVector(valCol)}</div>&nbsp;+&nbsp;
             w2n * <div className='ml-2 mr-2 my-1'>{makeTextVector(valCol)}</div>
@@ -149,8 +136,7 @@ ${embedInline((() => {
     </div>;
 })())}
 
-For a more concrete example, let's look at the 6th column (${c_dimRef('t = 5', DimStyle.T)}), from which
-we will query from:`;
+Daha somut bir örnek için, sorgu yapacağımız 6. sütuna (${c_dimRef('t = 5', DimStyle.T)}) bakalım:`;
     breakAfter();
 
     let t_focusQKVCols = afterTime(null, 1.0);
@@ -160,30 +146,22 @@ we will query from:`;
 // columns each have a K (key) vector, which represents the information that that column has, and our
 // Q (query) vector is what information is relevant to us.
     commentary(wt)`
-The {K, V} entries of our lookup are the 6 columns in the past, and the Q value is the current time.
+Lookup tablomuzdaki {K, V} girdileri geçmişteki 6 sütun, Q değeri ise şu anki zamandır.
 
-We first calculate the dot product between the ${c_blockRef('Q vector', head2.qBlock)} of the current column (${c_dimRef('t = 5', DimStyle.T)}) and the ${c_blockRef('K vectors', head2.kBlock)}
-of each of the those previous columns. These are then stored in the corresponding row (${c_dimRef('t = 5', DimStyle.T)})
-of the ${c_blockRef('attention matrix', head2.attnMtx)}.`;
+İlk olarak, mevcut sütunun (${c_dimRef('t = 5', DimStyle.T)}) ${c_blockRef('Q vektörü', head2.qBlock)} ile önceki sütunların her birinin ${c_blockRef('K vektörleri', head2.kBlock)} arasında nokta çarpımını hesaplarız. Bunlar daha sonra ${c_blockRef('dikkat matrisi', head2.attnMtx)}'nin ilgili sırasına (${c_dimRef('t = 5', DimStyle.T)}) saklanır.`;
     breakAfter();
 
     let t_processAttnRow = afterTime(null, 3.0);
 
     breakAfter();
     commentary(wt)`
-These dot products are a way of measuring the similarity between the two vectors. If they're very
-similar, the dot product will be large. If they're very different, the dot product will be small or
-negative.
+Bu nokta çarpımları, iki vektör arasındaki benzerliği ölçmenin bir yoludur. Eğer çok benzerlerse, nokta çarpımı da büyük olur. Eğer çok farklılarsa, nokta çarpımı ya küçük ya da negatif olur.
 
-The idea of only using the query against past keys makes this _causal_ self-attention. That is,
-tokens can't "see into the future".
+Yalnızca sorguyu geçmiş anahtarlarla karşılaştırma fikri, bunu _nedensel_ öz-dikkat yapar. Yani kısaca, tokenler "geleceği göremez".
 
-Another element is that after we take the dot product, we divide by sqrt(${c_dimRef('A', DimStyle.A)}), where
-${c_dimRef('A', DimStyle.A)} is the length of the Q/K/V vectors. This scaling is done to prevent large values from
-dominating the normalization (softmax) in the next step.
+Bir başka unsur da şu: Nokta çarpımı yaptıktan sonra bu değeri, kök(${c_dimRef('A', DimStyle.A)}) ile bölüyoruz (${c_dimRef('A', DimStyle.A)} değeri Q/K/V vektörlerinin uzunluğudur). Bu ölçeklendirme, büyük değerlerin bir sonraki adımda normalleştirmeyi (softmax) domine etmesini engellemek için yapılır.
 
-We'll mostly skip over the softmax operation (described later); suffice it to say, each row is normalized to sum
-to 1.`;
+Softmax işlemi üzerinden çoğunlukla atlayacağız (daha sonra anlatılacak); her sıranın toplamı 1 olacak şekilde normalize edildiğini söylemek şimdilik yeterlidir.`;
     breakAfter();
 
     let t_processAttnSmAggRow = afterTime(null, 1.0);
@@ -191,9 +169,7 @@ to 1.`;
 
     breakAfter();
     commentary(wt)`
-Finally, we can produce the output vector for our column (${c_dimRef('t = 5', DimStyle.T)}). We look at the (${c_dimRef('t = 5', DimStyle.T)}) row of the
-${c_blockRef('normalized self-attention matrix', head2.attnMtxSm)} and for each element, multiply the corresponding ${c_blockRef('V vector', head2.vBlock)} of the
-other columns element-wise.`;
+Sonunda, artık sütunumuz (${c_dimRef('t = 5', DimStyle.T)}) için çıktı vektörünü üretebiliriz. ${c_blockRef('normalize edilmiş öz-dikkat matrisi', head2.attnMtxSm)}'nin (${c_dimRef('t = 5', DimStyle.T)}) satırına bakarız ve her bir eleman için, diğer sütunların ${c_blockRef('V vektörü', head2.vBlock)}'nü eleman bazında çarparız.`;
     breakAfter();
 
     let t_zoomVOutput = afterTime(null, 0.4, 0.5);
@@ -207,10 +183,9 @@ other columns element-wise.`;
 
     breakAfter();
     commentary(wt)`
-Then we can add these up to produce the output vector. Thus, the output vector will be dominated by
-V vectors from columns that have high scores.
+Sonra da bu değerleri toplayarak çıktı vektörünü üretebiliriz. Böylece çıktı vektörü, yüksek puanlara sahip sütunların V vektörleri tarafından domine edilecektir.
 
-Now we know the process, let's run it for all the columns.`;
+Artık süreci biliyoruz, hadi şimdi bunu tüm sütunlar için çalıştıralım.`;
 
     breakAfter();
 
@@ -220,11 +195,10 @@ Now we know the process, let's run it for all the columns.`;
 
     breakAfter();
     commentary(wt)`
-And that's the process for a head of the self-attention layer. So the main goal of self-attention is
-that each column wants to find relevant information from other columns and extract their values, and
-does so by comparing its _query_ vector to the _keys_ of those other columns. With the added restriction
-that it can only look in the past.
-`;
+İşte bu süreç, öz-dikkat katmanının bir başlığının oluşturulma sürecidir. Yani, öz-dikkatin ana amacı,
+her sütunun diğer sütunlardan ilgili bilgileri bulup değerlerini çıkarması ve 
+bunu kendi _sorgu_ vektörünü diğer sütunların _anahtarları_ ile karşılaştırarak yapmasıdır.
+Tabii yalnızca geçmişe bakma kısıtlamasıyla birlikte.`;
 
 // Running this process for all the columns produces our self-attention matrix, which is a square
 // matrix, T x T, and due to the causal nature of the process, is a lower triangular matrix.

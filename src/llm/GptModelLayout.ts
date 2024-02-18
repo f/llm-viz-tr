@@ -423,7 +423,7 @@ export function genGptModelLayout(shape: IModelShape, gptGpuModel: IGptModelLink
                 xR: qkvBiasLeftX, zM: qMid,
                 access: { src: attnTarget?.qkvBias, x: [1, 0, 0], y: [0, 1, 0, 0*C + A*i] },
                 dimX: DimStyle.None, dimY: DimStyle.A, small: true,
-                name: 'Q Bias',
+                name: 'Q Sapma',
             });
 
             let kBiasBlock = mk({
@@ -431,7 +431,7 @@ export function genGptModelLayout(shape: IModelShape, gptGpuModel: IGptModelLink
                 xR: qkvBiasLeftX, zM: kMid,
                 access: { src: attnTarget?.qkvBias, x: [1, 0, 0], y: [0, 1, 0, 1*C + A*i] },
                 dimX: DimStyle.None, dimY: DimStyle.A, small: true,
-                name: 'K Bias',
+                name: 'K Sapma',
             });
 
             let vBiasBlock = mk({
@@ -439,7 +439,7 @@ export function genGptModelLayout(shape: IModelShape, gptGpuModel: IGptModelLink
                 xR: qkvBiasLeftX, zM: vMid,
                 access: { src: attnTarget?.qkvBias, x: [1, 0, 0], y: [0, 1, 0, 2*C + A*i] },
                 dimX: DimStyle.None, dimY: DimStyle.A, small: true,
-                name: 'V Bias',
+                name: 'V Sapma',
             });
 
             let qBlock = mk({
@@ -577,7 +577,7 @@ export function genGptModelLayout(shape: IModelShape, gptGpuModel: IGptModelLink
             xR: qkvValLeftX - C * cell - margin, zM: 0,
             access: { src: attnTarget?.proj.bias!, x: [0, 0, 0], y: [0, 1, 0], scale: C * 0.5 },
             dimX: DimStyle.None, dimY: DimStyle.C, small: true,
-            name: 'Projeksiyon Bias',
+            name: 'Projeksiyon Sapma',
         });
 
         let attnOut = mk({
@@ -620,7 +620,7 @@ export function genGptModelLayout(shape: IModelShape, gptGpuModel: IGptModelLink
             xR: attnLeftX, zM: 0,
             access: { src: target?.mlp.fcLayer.bias!, x: [0, 1, 0], y: [1, 0, 0], scale: C * 0.5 },
             dimX: DimStyle.C4, dimY: DimStyle.None,
-            name: 'MLP Bias', small: true,
+            name: 'MLP Sapma', small: true,
         });
 
         y += C * cell + margin;
@@ -662,7 +662,7 @@ export function genGptModelLayout(shape: IModelShape, gptGpuModel: IGptModelLink
             xR: attnLeftX - C * 4 * cell - margin, zM: 0,
             access: { src: target?.mlp.projLayer.bias!, x: [1, 0, 0], y: [0, 1, 0], scale: C * 0.5 },
             dimX: DimStyle.None, dimY: DimStyle.C, small: true,
-            name: 'MLP Projeksiyon Bias',
+            name: 'MLP Projeksiyon Sapma',
         });
 
         let mlpResult = mk({
