@@ -24,7 +24,7 @@ export function walkthrough03_LayerNorm(args: IWalkthroughArgs) {
 
     commentary(wt, null, 0)`
 
-Önceki bölümde oluşturulan ${c_blockRef('_girdi gömme_', state.layout.residual0)} matrisi, aslında ilk Dönüştürücü bloğumuzun da girdiidir.
+Önceki bölümde oluşturulan ${c_blockRef('_girdi gömme_', state.layout.residual0)} matrisi, aslında ilk Dönüştürücü bloğumuzun da girdisidir.
 
 Dönüştürücü blokta ilk adım olarak bu matrise _katman normalleştirmesi_ uygulanır. Bu işlem, matrisin her sütunundaki değerleri ayrı ayrı normalleştiren bir işlemdir.`;
     breakAfter();
