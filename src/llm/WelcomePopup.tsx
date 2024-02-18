@@ -67,6 +67,7 @@ export const WelcomePopup: React.FC<{}> = () => {
                 <p>Bu modellerin nasıl çalıştığını anlamanıza yardımcı olmak için aynı tasarıma sahip çok küçük bir modeli gösteriyoruz.</p>
                 <p>Interaktif olmanın yanı sıra, modelin nasıl çalıştığını adım adım gösteren bir rehberlik de sağlıyor, burada yapılan her tekil toplama, çarpma ve matematik işlemi açıklanmıştır.</p>
                 <p style={{ marginTop: 20, fontSize: 14 }}><a href="https://twitter.com/fkadev">Fatih Kadir Akın</a> tarafından, yaratıcısı Brendan Bycroft'un izniyle Türkçeye çevrilmiştir.</p>
+                <p style={{ fontSize: 14 }}><a href="https://github.com/f/llm-viz-tr">Türkçe Kaynak Kodu</a></p>
             </div>
         </div>
         <div className={s.footer}>
