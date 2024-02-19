@@ -14,7 +14,7 @@ export function walkthrough09_Output(args: IWalkthroughArgs) {
     let c0 = commentary(wt, null, 0)`
 
 En sonunda, modelin sonuna geldik. Son dönüştürücü bloğun çıktısı bir katman normalleştirmesinden geçirilir ve sonra
-bir doğrusal dönüşüm (matris çarpımı) kullanılır, bu sefer sapma kullanılmaz.
+bir doğrusal dönüşüm (matris çarpımı) kullanılır, bu sefer bias (sapma) kullanılmaz.
 
 Bu son dönüşüm, her bir sütun vektörümüzü C uzunluğundan nvocab uzunluğuna taşır. Dolayısıyla,
 etkin bir şekilde her bir sütunumuz için _kelime dağarcığındaki_ her kelime için bir puan üretiyor. Bu

@@ -64,7 +64,7 @@ Burada kullandığımız notasyon, ortalama için E[x] ve varyans için Var[x] (
 Bu değerleri tüm sütun değerlerine uyguladığımız için toplama katmanımızda hesaplayıp saklarız.
 
 Sonunda normalize edilmiş değerlere sahip olunca, sütundaki her bir öğeyi öğrenilmiş bir
-${c_blockRef('ağırlık (\u03b3)', ln.lnSigma)} ile çarpar ve ardından bir ${c_blockRef('sapma (β)', ln.lnMu)} değeri ekleriz, bu da bize ${c_blockRef('normalize edilmiş değerler', ln.lnResid)} sonucunu verir.`;
+${c_blockRef('ağırlık (\u03b3)', ln.lnSigma)} ile çarpar ve ardından bir ${c_blockRef('bias (sapma) (β)', ln.lnMu)} değeri ekleriz, bu da bize ${c_blockRef('normalize edilmiş değerler', ln.lnResid)} sonucunu verir.`;
 
     breakAfter();
 

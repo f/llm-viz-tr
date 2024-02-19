@@ -46,7 +46,7 @@ Bu vektörlerden birini takip edelim:
     breakAfter();
 
 commentary(wt)`
-Önce sapma eklenmiş matris-vektör çarpımını gerçekleştirerek vektörü ${c_dimRef('4 * C', DimStyle.C4)} uzunluğuna genişletiyoruz. (Burada çıktı matrisinin transpoze edildiğini unutmayın.
+Önce bias (sapma) eklenmiş matris-vektör çarpımını gerçekleştirerek vektörü ${c_dimRef('4 * C', DimStyle.C4)} uzunluğuna genişletiyoruz. (Burada çıktı matrisinin transpoze edildiğini unutmayın.
 Bu, tamamen görselleştirme amaçlıdır.)    
 `;
     breakAfter();
@@ -69,7 +69,7 @@ ${<ReluGraph />}
     breakAfter();
 
 commentary(wt)`
-Sonrasında, başka bir matris-vektör çarpımı ve eklenmiş sapma ile vektörü tekrar ${c_dimRef('C', DimStyle.C)} uzunluğuna indiriyoruz.
+Sonrasında, başka bir matris-vektör çarpımı ve eklenmiş bias (sapma) ile vektörü tekrar ${c_dimRef('C', DimStyle.C)} uzunluğuna indiriyoruz.
 `;
     breakAfter();
 
