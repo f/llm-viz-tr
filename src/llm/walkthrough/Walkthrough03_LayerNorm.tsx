@@ -75,7 +75,7 @@ ${c_blockRef('ağırlık (\u03b3)', ln.lnSigma)} ile çarpar ve ardından bir ${
     breakAfter();
     commentary(wt)`
 Bu normalleştirme işlemini ${c_blockRef('girdi gömme matrisi', layout.residual0)}'nin her bir sütununda uygularız ve bu sonuç,
-artık _Öz Dikkat_ katmanına geçirilmeye hazır olan ${c_blockRef('normalize edilmiş girdi gömmesi', ln.lnResid)}'dir.`;
+artık _Öz-Dikkat_ katmanına geçirilmeye hazır olan ${c_blockRef('normalize edilmiş girdi gömmesi', ln.lnResid)}'dir.`;
 
     breakAfter();
     let t_cleanupSplits = afterTime(null, 0.5);

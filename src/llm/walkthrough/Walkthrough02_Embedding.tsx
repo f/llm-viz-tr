@@ -21,8 +21,8 @@ export function walkthrough02_Embedding(args: IWalkthroughArgs) {
     wt.dimHighlightBlocks = [layout.idxObj, layout.tokEmbedObj, layout.posEmbedObj, layout.residual0];
 
     commentary(wt)`
-Daha önce, tokenlerin basit bir _lookup table_ kullanılarak nasıl bir tam sayı dizisine eşlendiğini görmüştük.
-Bu tam sayılar, the ${c_blockRef('_token indisleri_', state.layout.idxObj, DimStyle.TokenIdx)}, modelde gördüğümüz _ilk ve tek_ tam sayılardır.
+Daha önce, tokenlerin basit bir _başvuru tablosu_ kullanılarak nasıl bir tam sayı dizisine eşlendiğini görmüştük.
+Bu tam sayılar, ${c_blockRef('_token indeksleri_', state.layout.idxObj, DimStyle.TokenIdx)}, modelde gördüğümüz _ilk ve tek_ tam sayılardır.
 Bundan sonra her zaman ondalık sayılar olan floatları kullanıyoruz.
 
 Şimdi, 4. tokenin (indeksi 3) ${c_blockRef('_girdi gömme_', state.layout.residual0)}'mizin, 4'üncü sütun vektörünü üretmek için nasıl kullanıldığına bir göz atalım.`;
@@ -49,7 +49,7 @@ Bu, ${c_dimRef('_C_ = 48', DimStyle.C)} boyutunda bir sütun vektörü üretir, 
     commentary(wt)`
 Ve 4. _pozisyonda_ (t = ${c_dimRef('3', DimStyle.T)}) olduğumuz için ${c_str('B', DimStyle.Token)} tokenimize bakarken, ${c_blockRef('_pozisyon gömme matrisi_', state.layout.posEmbedObj)}'nin 4. sütununu alacağız.
 
-Bu da aynı şekilde ${c_dimRef('_C_ = 48', DimStyle.C)} boyutunda bir sütun vektörü üretir, bunu _pozisyon gömmesi_ olarak tanımlıyoruz.
+Bu da aynı şekilde ${c_dimRef('_C_ = 48', DimStyle.C)} boyutunda bir sütun vektörü üretir, bunu _pozisyon gömmesi_ olarak tanımlıyoruz.
     `;
     breakAfter();
 

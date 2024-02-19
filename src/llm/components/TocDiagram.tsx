@@ -135,7 +135,7 @@ export const TocDiagram: React.FC<{
     entryGroups.push({ groupName: 'Bileşenler', entries: [] });
     makeEntry(Phase.Input_Detail_Embedding, 'Gömme (Embedding)', ['tokEmbed', 'posEmbed'], true);
     makeEntry(Phase.Input_Detail_LayerNorm, 'Katman Normu', ['ln1', 'ln2', 'lnf']);
-    makeEntry(Phase.Input_Detail_SelfAttention, 'Öz Dikkat', ['selfAttend']);
+    makeEntry(Phase.Input_Detail_SelfAttention, 'Öz-Dikkat', ['selfAttend']);
     makeEntry(Phase.Input_Detail_Projection, 'Projeksiyon', ['selfAttend']);
     makeEntry(Phase.Input_Detail_Mlp, 'Çok Katmanlı Algılayıcı', ['feedForward']);
     makeEntry(Phase.Input_Detail_Transformer, 'Dönüştürücü', ['transformer']);
