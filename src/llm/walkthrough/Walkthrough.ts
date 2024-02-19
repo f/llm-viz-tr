@@ -96,7 +96,7 @@ export function initWalkthrough() {
             phases: [
                 { id: Phase.Input_Detail_Embedding, title: 'Gömme (Embedding)' },
                 { id: Phase.Input_Detail_LayerNorm, title: 'Katman Normu' },
-                { id: Phase.Input_Detail_SelfAttention, title: 'Öz Dikkat' },
+                { id: Phase.Input_Detail_SelfAttention, title: 'Öz-Dikkat' },
                 { id: Phase.Input_Detail_Projection, title: 'Projeksiyon' },
                 { id: Phase.Input_Detail_Mlp, title: 'Çok Katmanlı Algılayıcı' },
                 { id: Phase.Input_Detail_Transformer, title: 'Dönüştürücü' },

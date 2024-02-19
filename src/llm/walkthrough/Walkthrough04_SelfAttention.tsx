@@ -89,7 +89,7 @@ Peki bu Q (sorgu), K (anahtar) ve V (değer) vektörleriyle ne yaparız? Aslınd
 
 ${embedInline(<div className='ml-4'>
     <div className='mt-1 text-center italic'>Yazılım benzetmesi</div>
-    <div className='text-sm mt-1 mb-1 text-gray-600'>Lookup Tablosu:</div>
+    <div className='text-sm mt-1 mb-1 text-gray-600'>Başvuru tablosu:</div>
     <div className='font-mono'>{'table = { "key0": "value0", "key1": "value1", ... }'}</div>
     <div className='text-sm mt-1 mb-1 text-gray-600'>Sorgu Süreci:</div>
     <div className='font-mono'>{'table["key1"] => "value1"'}</div>
@@ -103,8 +103,8 @@ ${embedInline((() => {
     let qCol = dimStyleColor(DimStyle.Aggregates);
 
     return <div className='ml-4'>
-        <div className='mt-1 text-center italic'>Öz Dikkat</div>
-        <div className='text-sm mt-2 mb-1 text-gray-600'>Lookup tablosu:</div>
+        <div className='mt-1 text-center italic'>Öz-Dikkat</div>
+        <div className='text-sm mt-2 mb-1 text-gray-600'>Başvuru tablosu:</div>
         <div className='font-mono flex items-center'>K:
             <div className='mx-2 my-1'>{makeTextVector(keyCol)}</div>
             <div className='mx-2 my-1'>{makeTextVector(keyCol)}</div>
@@ -147,7 +147,7 @@ Daha somut bir örnek için, sorgu yapacağımız 6. sütuna (${c_dimRef('t = 5'
 // columns each have a K (key) vector, which represents the information that that column has, and our
 // Q (query) vector is what information is relevant to us.
     commentary(wt)`
-Lookup tablomuzdaki {K, V} girdileri geçmişteki 6 sütun, Q değeri ise şu anki zamandır.
+Başvuru tablomuzdaki {K, V} girdileri geçmişteki 6 sütun, Q değeri ise şu anki zamandır.
 
 İlk olarak, mevcut sütunun (${c_dimRef('t = 5', DimStyle.T)}) ${c_blockRef('Q vektörü', head2.qBlock)} ile önceki sütunların her birinin ${c_blockRef('K vektörleri', head2.kBlock)} arasında nokta çarpımını hesaplarız. Bunlar daha sonra ${c_blockRef('dikkat matrisi', head2.attnMtx)}'nin ilgili sırasına (${c_dimRef('t = 5', DimStyle.T)}) saklanır.`;
     breakAfter();
